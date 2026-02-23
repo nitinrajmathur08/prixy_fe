@@ -1,6 +1,6 @@
 import React, { useEffect,useState } from 'react';
 import axios from 'axios';
-import { getUserProfileAPI, updateKycAndVerifiedStatus } from '../../config';
+import { BASE_URL, getUserProfileAPI, updateKycAndVerifiedStatus } from '../../config';
 import { useParams } from 'react-router-dom';
 
 
@@ -87,6 +87,24 @@ function UserDetail() {
         }
     };
 
+
+    const handleDelete = async () => {
+        try {
+            console.log('--id--',id);
+            
+                const response = await axios.delete(`${BASE_URL}users/delete-profile/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            console.log(response);
+            window.history.back()
+        } catch (error) {
+            console.error(error);
+            
+        }
+    }
+
     return (
         <div className="content-wrapper">
             <div className="content-header">
@@ -119,17 +137,17 @@ function UserDetail() {
                                         <div className="col-lg-4">
                                             <label className="lableClass">First Name  </label>
                                             <br/>
-                                            <span className='spanclassTxt'> { users.first_name || 'N/A' }</span>
+                                            <span className='spanclassTxt'> { users?.first_name || 'N/A' }</span>
                                         </div>
                                         <div className="col-lg-4">
                                             <label className="lableClass">Last Name </label>
                                             <br/>
-                                            <span className='spanclassTxt'> { users.last_name || 'N/A' }</span>
+                                            <span className='spanclassTxt'> { users?.last_name || 'N/A' }</span>
                                         </div>
                                         <div className="col-lg-4">
                                             <label className="lableClass">NIF  </label>
                                             <br/>
-                                            <span className='spanclassTxt'>{ users.nif || 'N/A' }</span>
+                                            <span className='spanclassTxt'>{ users?.nif || 'N/A' }</span>
                                         </div>
                                     </div>    
                                 </div> 
@@ -138,17 +156,17 @@ function UserDetail() {
                                         <div className="col-lg-4">
                                             <label className="lableClass">Phone Number  </label>
                                             <br/>
-                                            <span className='spanclassTxt'>{ users.country_code}-{ users.phone_number || 'N/A' }</span>
+                                            <span className='spanclassTxt'>{ users?.country_code}-{ users?.phone_number || 'N/A' }</span>
                                         </div>
                                         <div className="col-lg-4">
                                             <label className="lableClass">Email Address  </label>
                                             <br/>
-                                            <span className='spanclassTxt'>{ users.email || 'N/A' }</span>
+                                            <span className='spanclassTxt'>{ users?.email || 'N/A' }</span>
                                         </div>
                                         <div className="col-lg-4">
                                             <label className="lableClass">Current Balance  </label>
                                             <br/>
-                                            <span className='spanclassTxt'>{ users.current_balance || '0' }</span>
+                                            <span className='spanclassTxt'>{ users?.current_balance || '0' }</span>
                                         </div>
                                     </div>    
                                 </div>   
@@ -157,17 +175,17 @@ function UserDetail() {
                                         <div className="col-lg-4">
                                             <label className="lableClass">Home  </label>
                                             <br/>
-                                            <span className='spanclassTxt'>{ users.addressDetails?.home ?? 'N/A'}</span>
+                                            <span className='spanclassTxt'>{ users?.addressDetails?.home ?? 'N/A'}</span>
                                         </div>
                                         <div className="col-lg-4">
                                             <label className="lableClass">Street  </label>
                                             <br/>
-                                            <span className='spanclassTxt'>{ users.addressDetails?.street ?? 'N/A'}</span>
+                                            <span className='spanclassTxt'>{ users?.addressDetails?.street ?? 'N/A'}</span>
                                         </div>
                                         <div className="col-lg-4">
                                             <label className="lableClass">City  </label>
                                             <br/>
-                                            <span className='spanclassTxt'>{ users.addressDetails?.city ?? 'N/A'}</span>
+                                            <span className='spanclassTxt'>{ users?.addressDetails?.city ?? 'N/A'}</span>
                                         </div>
                                     </div>    
                                 </div>    
@@ -176,9 +194,9 @@ function UserDetail() {
                                         <div className="col-lg-4">
                                             <label className="lableClass">Zip  </label>
                                             <br/>
-                                            <span className='spanclassTxt'>{ users.addressDetails?.zip ?? 'N/A'}</span>
+                                            <span className='spanclassTxt'>{ users?.addressDetails?.zip ?? 'N/A'}</span>
                                         </div>
-                                        {users.kycFileNames && users.kycFileNames.length > 0 ? (
+                                        {users?.kycFileNames && users?.kycFileNames.length > 0 ? (
                                             <div className="col-lg-4">
                                                 <label className="lableClass"> Kyc Verificatiom </label>
                                                 <br/>
@@ -187,13 +205,13 @@ function UserDetail() {
                                                     <span className="slider round"></span>
                                                 </label> */}
                                                 
-                                                {users.is_kyc_approved === 0 ? (
+                                                {users?.is_kyc_approved === 0 ? (
                                                     <div>
-                                                        <a onClick={() => handleKycApprovalToggle(users._id, '1', '2')}>
+                                                        <a onClick={() => handleKycApprovalToggle(users?._id, '1', '2')}>
                                                             <i className="fa fa-times-circle disblecheck fa-lg"
                                                                 style={{ color: 'red',  fontSize: '25px',  marginTop: '10px'}}></i>
                                                         </a>
-                                                        <a onClick={() => handleKycApprovalToggle(users._id, '1', '1')}>
+                                                        <a onClick={() => handleKycApprovalToggle(users?._id, '1', '1')}>
                                                             <i className="fa fa-check-circle enablecheck fa-lg" 
                                                             style={{ marginLeft: '10px', color: 'green',  fontSize: '25px',  marginTop: '10px'}}></i>
                                                         </a>    
@@ -203,8 +221,8 @@ function UserDetail() {
                                                 )}
         
                                                 <span className='spanclassTxt'>{
-                                                    users.is_kyc_approved == 1 ? 'Approved' :
-                                                    users.is_kyc_approved == 2 ? 'Rejected' :
+                                                    users?.is_kyc_approved == 1 ? 'Approved' :
+                                                    users?.is_kyc_approved == 2 ? 'Rejected' :
                                                     'Pending'
                                                 }</span>
                                                 
@@ -231,7 +249,7 @@ function UserDetail() {
                                 </div> 
                                 <div className="col-lg-12 lableClassColClass">
                                     <div className="row">   
-                                        <div className="col-lg-12">
+                                        <div className="col-lg-4">
                                             <label className="lableClass">Kyc Documents</label>
                                             <br/>
                                             <div className="row" style={{ marginTop: '10px' }}>
@@ -246,10 +264,17 @@ function UserDetail() {
                                                         </div>
                                                     ))
                                                 ) : (
-                                                    <div className="col-lg-12">
+                                                    <div className="col-lg-4">
                                                         <span className='spanclassTxt'>No KYC files found.</span>
                                                     </div>
                                                 )}
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-4">
+                                            <label className="lableClass">Delete User</label>
+                                            <br/>
+                                            <div className="row" style={{ marginTop: '10px' }} onClick={handleDelete}>
+                                                <button><i class="fa fa-trash " aria-hidden="true"></i></button>
                                             </div>
                                         </div>
                                     </div>    
