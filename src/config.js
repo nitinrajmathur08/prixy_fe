@@ -20,7 +20,7 @@ export const updateKycAndVerifiedStatusForAgent = `${BASE_URL}agents/update-kyc-
 
 // request
 export const getAllRequestAPI = `${BASE_URL}agents/get-requests`;
-export const getAllFundraisersAPI = `https://prixy-be.onrender.com/api/fundraiser/search`;
+export const getAllFundraisersAPI = `${MAIN_BASE_URL}/api/fundraiser/search`;
 //GobalSetting Api 
 export const getAllGobalSetting = `${BASE_URL}gobal-settings/get-gobal-settings-list`;
 export const addGobalSetting    = `${BASE_URL}gobal-settings/add-gobal-settings`;
@@ -28,6 +28,7 @@ export const editGobalSetting   = `${BASE_URL}gobal-settings/edit-gobal-settings
 export const getFaq   = `${BASE_URL}gobal-settings/get-faq`;
 export const addEdit   = `${BASE_URL}gobal-settings/add-edit-faq`;
 export const deleteGobalSetting   = `${BASE_URL}gobal-settings/delete-gobal-settings`;
+export const getTotal   = `${BASE_URL}gobal-settings/get-total`;
 
 // prixy.admin@gmail.com
 // 123456

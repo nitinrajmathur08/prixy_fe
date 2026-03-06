@@ -1,6 +1,24 @@
+import { useQuery } from '@tanstack/react-query'
+import axios from 'axios'
 import React, { Component } from 'react'
-export default class Dashboard extends Component {
-    render(){
+import { getTotal } from '../config'
+ function Dashboard()  {
+    const token = localStorage.getItem('token'); // Parse as boolean
+
+
+    const { data, isLoading, isError, refetch } = useQuery({
+        queryKey: 'getTotal',
+        queryFn: async () => {
+            const { data } = await axios.get(getTotal, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            return data?.data
+        },
+        enabled: token ? true : false
+    })
+
         return (
             <div className="content-wrapper">
                 <div className="content-header">
@@ -20,7 +38,7 @@ export default class Dashboard extends Component {
                                     <div className="small-box bg-orange">
                                         <div className="inner">
                                             <p>Total Users</p>
-                                            <h3>_</h3>
+                                            <h3>{data?.userTotal || '_'}</h3>
                                         </div>
                                     </div>        
                                 </a>
@@ -29,8 +47,8 @@ export default class Dashboard extends Component {
                                 <a href="">
                                     <div className="small-box bg-blue">
                                         <div className="inner">
-                                            <p>Total WithDraw</p>
-                                            <h3>_</h3>
+                                            <p>Total Withdraws</p>
+                                            <h3>{data?.withdrawTotal || '_'}</h3>
                                         </div>
                                     </div>        
                                 </a>
@@ -39,8 +57,8 @@ export default class Dashboard extends Component {
                                 <a href="">
                                     <div className="small-box bg-purple">
                                         <div className="inner">
-                                            <p>Total Amount</p>
-                                            <h3>_</h3>
+                                            <p>Total Requests</p>
+                                            <h3>{data?.requestTotal || '_'}</h3>
                                         </div>
                                     </div>        
                                 </a>
@@ -49,8 +67,8 @@ export default class Dashboard extends Component {
                                 <a href="">
                                     <div className="small-box bg-green">
                                         <div className="inner">
-                                            <p>Total Balance</p>
-                                            <h3>_</h3>
+                                            <p>Total Agents</p>
+                                            <h3>{data?.agentTotal || '_'}</h3>
                                         </div>
                                     </div>        
                                 </a>
@@ -60,5 +78,6 @@ export default class Dashboard extends Component {
                 </section>
             </div>    
         )
-    }
+    
 }
+export default Dashboard
