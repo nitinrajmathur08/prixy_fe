@@ -37,7 +37,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className="wrapper">
-        <Router>
+        <Router basename="/admin-panel">
           <ToastContainer />
           <Routes>
             <Route

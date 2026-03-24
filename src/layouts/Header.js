@@ -7,11 +7,13 @@ const Header = () => {
     const navigate = useNavigate();
     const handleLogout = () => {
         // Clear the authentication status in local storage
+        localStorage.clear(); // Clear everything
+        sessionStorage.clear();
         localStorage.setItem('isAuthenticated','false');
         toast.success('Logout successful');
         //  Redirect to login
         // navigate('/login');
-        window.location.href = '/login';
+        window.location.href = '/admin-panel/login';
     };
 
     return (
@@ -26,7 +28,7 @@ const Header = () => {
                 <li className="nav-item profile-item dropdown">
                     <a className="nav-link" data-toggle="dropdown" href="#">
                     <span className="profile-img">
-                        <img src="/Profile_Picture.png" alt=""/>
+                        <img src={process.env.PUBLIC_URL + "/Profile_Picture.png"} alt=""/>
                     </span>
                     <span className="profile-name"></span>
                     <i className="fas fa-angle-down"></i>

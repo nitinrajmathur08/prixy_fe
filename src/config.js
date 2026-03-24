@@ -1,6 +1,7 @@
 // config.js
 // const DEV_BASE_URL = 'https://prixy-be.onrender.com/api/admin/';
-export const MAIN_BASE_URL = 'https://prixy-be.onrender.com';
+// export const MAIN_BASE_URL = 'https://prixy-be.onrender.com';
+export const MAIN_BASE_URL = 'https://prixywallet.com';
 // export const MAIN_BASE_URL = 'http://localhost:8000';
 const DEV_BASE_URL = `${MAIN_BASE_URL}/api/admin/`;
 

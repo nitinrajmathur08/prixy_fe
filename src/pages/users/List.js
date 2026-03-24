@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { getAllUsersAPI } from '../../config';
+import { Link } from 'react-router-dom';
 
 class UserList extends Component {
     constructor(props) {
@@ -136,8 +137,9 @@ class UserList extends Component {
                                                     </td>
                                                     <td>{user.createdAt}</td>
                                                     <td>
-                                                        <a href={`/users/detail/${user._id}`} ><i class="fa fa-eye " aria-hidden="true"></i></a>
-                                                      
+                                                        <Link to={`/users/detail/${user._id}`}>
+                                                            <i className="fa fa-eye" aria-hidden="true"></i>
+                                                        </Link>                                                      
                                                     </td>   
                                                 </tr>
                                             ))}

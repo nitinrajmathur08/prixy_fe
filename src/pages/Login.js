@@ -74,14 +74,14 @@ const Login = () => {
         <div className='col-lg-12' style={{ overflow: "hidden" }}> 
             <div className='row' style={{ margin: '-17px' }}>
                 <div className='col-lg-8'>
-                    <img src="/images/Rectangle_ban.png" className='h-100 object-fit-cover w-100'/>
+                    <img src={process.env.PUBLIC_URL + "/images/Rectangle_ban.png"} className='h-100 object-fit-cover w-100'/>
                 </div>
                 <div class="auth-bg-gradient card-img-overlay"></div>
                 <div className='col-lg-4'>
                     <div className='login-page'>
                         <div className="login-box">
                             <div style={{display:'flex', justifyContent:'center', marginBottom:'100px'}}>
-                                <img src="/Banner_Logo.png" alt="Prixy Logo" className="login-logo" style={{height:'100px'}}/>
+                                <img src={process.env.PUBLIC_URL + "/Banner_Logo.png"} alt="Prixy Logo" className="login-logo" style={{height:'100px'}}/>
                             </div>
                             <div className="login-title-box">
                                 <h4 className="login-title">Welcome to Prixy    </h4>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { getAllGobalSetting,deleteGobalSetting } from '../../config';
+import { Link } from 'react-router-dom';
 
 class GobalSettingList extends Component {
     constructor(props) {
@@ -113,9 +114,9 @@ class GobalSettingList extends Component {
                                     />
                                         <i className="fa fa-search" aria-hidden="true"></i>
                                     </div> */}
-                                    <a href={`/gobal-setting/edit/${user._id}`}>
+                                    <Link to={`/gobal-setting/edit/${user?._id}`}>
                                         <button className="btn btn-primary">Edit</button>
-                                    </a> 
+                                    </Link> 
                                 </div>
                                
                             </div>
@@ -133,55 +134,55 @@ class GobalSettingList extends Component {
                                         <React.Fragment >
                                             <tr>
                                                 <th>Email Address</th>
-                                                <td>{user.admin_email}</td>
+                                                <td>{user?.admin_email}</td>
                                             </tr>
                                             <tr>
                                                 <th>Phone Number</th>
-                                                <td>{user.admin_phone_number}</td>
+                                                <td>{user?.admin_phone_number}</td>
                                             </tr>
                                             <tr>
                                                 <th>Address</th>
-                                                <td>{user.admin_address}</td>
+                                                <td>{user?.admin_address}</td>
                                             </tr>
                                             <tr>
                                                 <th>Admin Pre Transaction Rate</th>
-                                                <td>{user.admin_pre_transaction_rate}</td>
+                                                <td>{user?.admin_pre_transaction_rate}</td>
                                             </tr>
                                             <tr>
                                                 <th>User Deposist Fee Rate</th>
-                                                <td>{user.user_desposist_fee_rate}</td>
+                                                <td>{user?.user_desposist_fee_rate}</td>
                                             </tr>
                                             <tr>
                                                 <th>User Transfer To Another User Rate</th>
-                                                <td>{user.user_transfer_to_another_user_rate}</td>
+                                                <td>{user?.user_transfer_to_another_user_rate}</td>
                                             </tr>
                                             <tr>
                                                 <th>User Withdrawal Fee Rate</th>
-                                                <td>{user.user_withdrawal_fee_rate}</td>
+                                                <td>{user?.user_withdrawal_fee_rate}</td>
                                             </tr>
                                             <tr>
                                                 <th>Fundraiser Fee Rate</th>
-                                                <td>{user.fundraiser_fee}</td>
+                                                <td>{user?.fundraiser_fee}</td>
                                             </tr>
                                             <tr>
                                                 <th>Home</th>
-                                                <td>{user.addressDetails?.home}</td>
+                                                <td>{user?.addressDetails?.home}</td>
                                             </tr>
                                             <tr>
                                                 <th>Street</th>
-                                                <td>{user.addressDetails?.street}</td>
+                                                <td>{user?.addressDetails?.street}</td>
                                             </tr>
                                             <tr>
                                                 <th>City</th>
-                                                <td>{user.addressDetails?.city}</td>
+                                                <td>{user?.addressDetails?.city}</td>
                                             </tr>
                                             <tr>
                                                 <th>State</th>
-                                                <td>{user.addressDetails?.state}</td>
+                                                <td>{user?.addressDetails?.state}</td>
                                             </tr>
                                             <tr>
                                                 <th>ZIP</th>
-                                                <td>{user.addressDetails?.zip}</td>
+                                                <td>{user?.addressDetails?.zip}</td>
                                             </tr>
                     
                                         </React.Fragment>

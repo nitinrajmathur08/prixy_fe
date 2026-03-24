@@ -10,9 +10,9 @@ class Siderbar extends Component {
         return (
             <div>
                 <aside className="main-sidebar sidebar-dark-primary elevation-4">
-                    <a href="index3.html" className="brand-link">
-                    <img src="/Admin_Menu.png" alt=""/>
-                    </a>
+                    <Link to="/" className="brand-link">
+                    <img src={process.env.PUBLIC_URL + "/Admin_Menu.png"} alt=""/>
+                    </Link>
                     {/* <div className="main-navigation">MAIN NAVIGATION</div> */}
                   
                     <div className="sidebar">
