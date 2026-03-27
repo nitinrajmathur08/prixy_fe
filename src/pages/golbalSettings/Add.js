@@ -5,6 +5,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { addEdit, addGobalSetting, editGobalSetting, getFaq, MAIN_BASE_URL } from '../../config';
 import { Button } from '@mui/material';
+import { use } from 'react';
 
 const AddGlobalSettings = () => {
     const [emailAddress, setEmailAddress]= useState('');
@@ -32,6 +33,11 @@ const AddGlobalSettings = () => {
     // Determine mode: editing if an id is present in the URL
     const { id } = params;
     const isEditing = !!id;
+
+    useEffect(async () => {
+        const faqResponse  = await axios.get(getFaq);
+        setFaqs(faqResponse?.data?.data || []);
+    }, []);
 
     // ─── Fetch existing data when editing ────────────────────────────────────
     const fetchSettings = async () => {
@@ -146,7 +152,7 @@ const AddGlobalSettings = () => {
                 const newId =
                     response.data?.data?._id || id;
 
-                navigate(`/gobal-setting/edit/${newId}`);
+                navigate(`/gobal-setting`);
 
             }, 1200);
 
@@ -187,6 +193,9 @@ const AddGlobalSettings = () => {
                 setFanswer('');
             }
             toast.success('FAQ saved');
+             const faqResponse  = await axios.get(getFaq);
+
+            setFaqs(faqResponse?.data?.data || []);
         } catch (error) {
             console.error(error);
             toast.error('Failed to save FAQ');
@@ -294,7 +303,6 @@ const AddGlobalSettings = () => {
                                     </div>
 
                                     {/* ── FAQs (only shown in edit mode since they need a parent record) ── */}
-                                    {isEditing && (
                                         <>
                                             <label className="lableClass" style={{ marginTop: '15px' }}>FAQs</label>
 
@@ -347,7 +355,7 @@ const AddGlobalSettings = () => {
                                                 </Button>
                                             </div>
                                         </>
-                                    )}
+                                    
 
                                     {/* ── Office Address ── */}
                                     <label className="lableClass" style={{ marginTop: '15px' }}>Office Address</label>
