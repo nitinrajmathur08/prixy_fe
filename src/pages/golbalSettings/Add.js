@@ -129,8 +129,21 @@ const AddGlobalSettings = () => {
                     "zip": zip
                 }
             };
-            console.log(bodyParms);
-            const response = await axios.post(addGobalSetting, bodyParms, {
+            const cleanedAddress = { ...bodyParms.addressDetails };
+
+            // Loop through and delete keys that are empty strings
+            Object.keys(cleanedAddress).forEach(key => {
+                if (cleanedAddress[key] === "") {
+                    delete cleanedAddress[key];
+                }
+            });
+
+            const finalPayload = {
+                ...bodyParms,
+                addressDetails: cleanedAddress
+            };
+            console.log(finalPayload);
+            const response = await axios.post(addGobalSetting, finalPayload, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
