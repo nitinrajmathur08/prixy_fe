@@ -69,7 +69,7 @@ class GobalSettingList extends Component {
                                 <div className="box-main-title">Global Settings</div>
                                 <div className="box-main-top-right">
                                     {/* Show Add button if no settings exist, Edit button if they do */}
-                                    {setting?.length === 0  ? (
+                                    {!setting  ? (
                                         <Link to="/gobal-setting/add">
                                             <button className="btn btn-success">+ Add Settings</button>
                                         </Link>
