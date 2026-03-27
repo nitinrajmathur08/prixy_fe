@@ -2,6 +2,7 @@ import React, { useEffect,useState } from 'react';
 import axios from 'axios';
 import { BASE_URL, getUserProfileAPI, updateKycAndVerifiedStatus } from '../../config';
 import { useParams } from 'react-router-dom';
+import ConfirmationModal from '../common/confirmationModal';
 
 
 function UserDetail() {
@@ -13,6 +14,7 @@ function UserDetail() {
     });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
     
     useEffect(() => {
         fetchUsers(id);
@@ -88,22 +90,19 @@ function UserDetail() {
     };
 
 
-    const handleDelete = async () => {
+    const confirmDelete = async () => {
         try {
-            console.log('--id--',id);
-            
-                const response = await axios.delete(`${BASE_URL}users/delete-profile/${id}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
+            const response = await axios.delete(`${BASE_URL}users/delete-profile/${id}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
             });
-            console.log(response);
-            window.history.back()
+            console.log("response----",response);
+            setDeleteModalOpen(false);
+            window.history.back();
         } catch (error) {
             console.error(error);
-            
+            alert("Failed to delete user");
         }
-    }
+    };
 
     return (
         <div className="content-wrapper">
@@ -144,11 +143,11 @@ function UserDetail() {
                                             <br/>
                                             <span className='spanclassTxt'> { users?.last_name || 'N/A' }</span>
                                         </div>
-                                        <div className="col-lg-4">
+                                        {/* <div className="col-lg-4">
                                             <label className="lableClass">NIF  </label>
                                             <br/>
                                             <span className='spanclassTxt'>{ users?.nif || 'N/A' }</span>
-                                        </div>
+                                        </div> */}
                                     </div>    
                                 </div> 
                                 <div className="col-lg-12 lableClassColClass">
@@ -273,10 +272,17 @@ function UserDetail() {
                                         <div className="col-lg-4">
                                             <label className="lableClass">Delete User</label>
                                             <br/>
-                                            <div className="row" style={{ marginTop: '10px' }} onClick={handleDelete}>
+                                            <div className="row" style={{ marginTop: '10px' }} onClick={() => setDeleteModalOpen(true)}>
                                                 <button><i class="fa fa-trash " aria-hidden="true"></i></button>
                                             </div>
                                         </div>
+                                        <ConfirmationModal 
+                                            isOpen={isDeleteModalOpen}
+                                            title="Delete User Account"
+                                            message={`Are you sure you want to delete ${users?.first_name || 'this user'}? This action cannot be undone.`}
+                                            onClose={() => setDeleteModalOpen(false)}
+                                            onConfirm={confirmDelete}
+                                        />
                                     </div>    
                                 </div>
 

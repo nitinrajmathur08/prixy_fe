@@ -126,11 +126,11 @@ function AgentDetail() {
                                             <br/>
                                             <span className='spanclassTxt'> { users.last_name || 'N/A' }</span>
                                         </div>
-                                        <div className="col-lg-4">
+                                        {/* <div className="col-lg-4">
                                             <label className="lableClass">NIF  </label>
                                             <br/>
                                             <span className='spanclassTxt'>{ users.nif || 'N/A' }</span>
-                                        </div>
+                                        </div> */}
                                     </div>    
                                 </div> 
                                 <div className="col-lg-12 lableClassColClass">
