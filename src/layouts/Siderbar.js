@@ -60,6 +60,12 @@ class Siderbar extends Component {
                                     </Link>
                                     
                                 </li> 
+                                <li className="nav-item">
+                                    <Link to="/faq" className={`nav-link ${currentPath.startsWith('/faq') ? 'active' : ''}`}>
+                                        <i className="nav-icon fas fa-question-circle"></i>
+                                        <p>FAQ</p>
+                                    </Link>    
+                                </li> 
                             </ul>
                         </nav>
                     </div>

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useParams, useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
-import { addEdit, addGobalSetting, editGobalSetting, getFaq, MAIN_BASE_URL } from '../../config';
+import { addGobalSetting, editGobalSetting, MAIN_BASE_URL } from '../../config';
 import { Button } from '@mui/material';
 import { use } from 'react';
 
@@ -21,9 +21,6 @@ const AddGlobalSettings = () => {
     const [city, setCity]   = useState('');
     const [state, setState] = useState('');
     const [street, setStreet] = useState('');
-    const [faqs, setFaqs]   = useState([]);
-    const [fquestion, setFquestion] = useState('');
-    const [fanswer, setFanswer]     = useState('');
     const [loading, setLoading]     = useState(false);
 
     const navigate  = useNavigate();
@@ -34,11 +31,6 @@ const AddGlobalSettings = () => {
     const { id } = params;
     const isEditing = !!id;
 
-    useEffect(async () => {
-        const faqResponse  = await axios.get(getFaq);
-        setFaqs(faqResponse?.data?.data || []);
-    }, []);
-
     // ─── Fetch existing data when editing ────────────────────────────────────
     const fetchSettings = async () => {
         setLoading(true);
@@ -47,11 +39,8 @@ const AddGlobalSettings = () => {
             const response     = await axios.post(editGobalSetting, { id }, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
-            const faqResponse  = await axios.get(getFaq);
 
             const data = response.data.data;
-            setFaqs(faqResponse?.data?.data || []);
-            setPhoneNumber(data.admin_phone_number || '');
             setEmailAddress(data.admin_email || '');
             setAddress(data.admin_address || '');
             setAdminPreTransactionRate(data.admin_pre_transaction_rate || '');
@@ -165,52 +154,6 @@ const AddGlobalSettings = () => {
         }
     };
 
-    // ─── FAQ handlers ─────────────────────────────────────────────────────────
-    const handleEditFaq = (faqId, type, value) => {
-        setFaqs(prev =>
-            prev.map(p => p.id === faqId
-                ? { ...p, question: type === 'q' ? value : p.question, answer: type === 'a' ? value : p.answer }
-                : p
-            )
-        );
-    };
-
-    const handleAddFaq = () => {
-        setFaqs(prev => [...prev, { question: '', answer: '', id: Date.now() }]);
-    };
-
-    const handleEditfaqSubmit = async (faqId) => {
-        try {
-            const payload = {
-                question: faqId ? faqs.find(f => f.id === faqId)?.question : fquestion,
-                answer:   faqId ? faqs.find(f => f.id === faqId)?.answer   : fanswer,
-                faqId,
-            };
-            await axios.post(addEdit, payload);
-            if (!faqId) {
-                // Clear the new-FAQ fields after saving
-                setFquestion('');
-                setFanswer('');
-            }
-            toast.success('FAQ saved');
-             const faqResponse  = await axios.get(getFaq);
-
-            setFaqs(faqResponse?.data?.data || []);
-        } catch (error) {
-            console.error(error);
-            toast.error('Failed to save FAQ');
-        }
-    };
-
-    const handleDeletefaq = async (faqId) => {
-        try {
-            setFaqs(prev => prev.filter(p => p.id !== faqId));
-            await axios.delete(`${MAIN_BASE_URL}/api/admin/gobal-settings/delete-faq/${faqId}`);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
     // ─── Render ───────────────────────────────────────────────────────────────
     if (loading) return <div>Loading...</div>;
 
@@ -301,61 +244,6 @@ const AddGlobalSettings = () => {
                                             </div>
                                         </div>
                                     </div>
-
-                                    {/* ── FAQs (only shown in edit mode since they need a parent record) ── */}
-                                        <>
-                                            <label className="lableClass" style={{ marginTop: '15px' }}>FAQs</label>
-
-                                            {faqs.map((faq) => (
-                                                <div key={faq.id} className="row" style={{ alignItems: 'center' }}>
-                                                    <div className="col-lg-4">
-                                                        <div className="form-group">
-                                                            <label className="lableClass">Question</label>
-                                                            <input type="text" className="form-control" value={faq.question}
-                                                                onChange={(e) => handleEditFaq(faq.id, 'q', e.target.value)} style={{ marginTop: '5px' }} />
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-lg-4">
-                                                        <div className="form-group">
-                                                            <label className="lableClass">Answer</label>
-                                                            <input type="text" className="form-control" value={faq.answer}
-                                                                onChange={(e) => handleEditFaq(faq.id, 'a', e.target.value)} style={{ marginTop: '5px' }} />
-                                                        </div>
-                                                    </div>
-                                                    <Button onClick={() => handleEditfaqSubmit(faq.id)} title="Save FAQ">
-                                                        <i className="fa fa-check-circle fa-lg" style={{ color: 'green', fontSize: '25px', marginTop: '10px' }}></i>
-                                                    </Button>
-                                                    <Button onClick={() => handleDeletefaq(faq.id)} title="Delete FAQ">
-                                                        <i className="fa fa-trash fa-lg" style={{ color: 'red', fontSize: '25px', marginTop: '10px' }}></i>
-                                                    </Button>
-                                                </div>
-                                            ))}
-
-                                            {/* New FAQ row */}
-                                            <div className="row" style={{ alignItems: 'center' }}>
-                                                <div className="col-lg-4">
-                                                    <div className="form-group">
-                                                        <label className="lableClass">New Question</label>
-                                                        <input type="text" className="form-control" value={fquestion}
-                                                            onChange={(e) => setFquestion(e.target.value)} style={{ marginTop: '5px' }} placeholder="Enter question" />
-                                                    </div>
-                                                </div>
-                                                <div className="col-lg-4">
-                                                    <div className="form-group">
-                                                        <label className="lableClass">New Answer</label>
-                                                        <input type="text" className="form-control" value={fanswer}
-                                                            onChange={(e) => setFanswer(e.target.value)} style={{ marginTop: '5px' }} placeholder="Enter answer" />
-                                                    </div>
-                                                </div>
-                                                <Button onClick={() => handleEditfaqSubmit(null)} title="Save new FAQ">
-                                                    <i className="fa fa-check-circle fa-lg" style={{ color: 'green', fontSize: '25px', marginTop: '10px' }}></i>
-                                                </Button>
-                                                <Button onClick={handleAddFaq} title="Add another FAQ row">
-                                                    <i className="fa fa-plus fa-lg" style={{ color: 'blue', fontSize: '25px', marginTop: '10px' }}></i>
-                                                </Button>
-                                            </div>
-                                        </>
-                                    
 
                                     {/* ── Office Address ── */}
                                     <label className="lableClass" style={{ marginTop: '15px' }}>Office Address</label>
