@@ -18,6 +18,7 @@ export const updateKycAndVerifiedStatus = `${BASE_URL}users/update-kyc-and-verif
 export const getAllAgentAPI = `${BASE_URL}agents/get-agent-list`;
 export const getAgentProfileAPI = `${BASE_URL}agents/get-profile`;
 export const updateKycAndVerifiedStatusForAgent = `${BASE_URL}agents/update-kyc-and-verified-status`; 
+export const deleteAgentAPI = `${BASE_URL}agents/delete-agent`;
 
 // request
 export const getAllRequestAPI = `${BASE_URL}agents/get-requests`;

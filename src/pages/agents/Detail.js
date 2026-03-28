@@ -1,11 +1,13 @@
 import React, { useEffect,useState } from 'react';
 import axios from 'axios';
-import { getAgentProfileAPI, updateKycAndVerifiedStatusForAgent } from '../../config';
-import { useParams } from 'react-router-dom';
+import { getAgentProfileAPI, updateKycAndVerifiedStatusForAgent, deleteAgentAPI } from '../../config';
+import { useParams, useNavigate } from 'react-router-dom';
+import ConfirmationModal from '../common/confirmationModal';
 
 
 function AgentDetail() {
     const { id } = useParams();
+    const navigate = useNavigate();
     const [users, setUsers] = useState({
         // Initial state of users
         kycApproved: 0,
@@ -13,6 +15,7 @@ function AgentDetail() {
     });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
     
     useEffect(() => {
         fetchUsers(id);
@@ -65,6 +68,22 @@ function AgentDetail() {
         } catch (error) {
             console.error('Error toggling admin verified approval:', error);
             // Handle error if needed
+        }
+    };
+
+    const confirmDelete = async () => {
+        try {
+            const response = await axios.delete(`${deleteAgentAPI}/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            setDeleteModalOpen(false);
+            navigate('/agents'); // Redirect to agents list after delete
+        } catch (error) {
+            console.error('Error deleting agent:', error);
+            alert("Failed to delete agent");
+            setDeleteModalOpen(false);
         }
     };
     
@@ -248,7 +267,14 @@ function AgentDetail() {
                                                 )}
                                             </div>
                                         </div>
-                                    </div>    
+                                        <div className="col-lg-12 row" style={{ marginTop: '20px' }}>
+                                            <label className="lableClass">Delete Agent</label>
+                                            <br/>
+                                            <div  style={{ marginLeft: '10px' }} onClick={() => setDeleteModalOpen(true)}>
+                                                <button><i class="fa fa-trash " aria-hidden="true"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>   
                                 </div>
 
                             </div>
@@ -256,8 +282,15 @@ function AgentDetail() {
                     </div>    
                 </div>
             </section>
-        </div>   
-    )
+            <ConfirmationModal
+                isOpen={isDeleteModalOpen}
+                title="Delete Agent Account"
+                message={`Are you sure you want to delete ${users?.first_name || 'this agent'}? This action cannot be undone.`}
+                onClose={() => setDeleteModalOpen(false)}
+                onConfirm={confirmDelete}
+            />
+        </div>
+    );
 }
 
 export default AgentDetail;
