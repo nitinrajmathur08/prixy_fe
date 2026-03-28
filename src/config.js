@@ -28,6 +28,7 @@ export const addGobalSetting    = `${BASE_URL}gobal-settings/add-gobal-settings`
 export const editGobalSetting   = `${BASE_URL}gobal-settings/edit-gobal-settings`;
 export const getFaq   = `${BASE_URL}gobal-settings/get-faq`;
 export const addEdit   = `${BASE_URL}gobal-settings/add-edit-faq`;
+export const deleteFaq   = `${BASE_URL}gobal-settings/delete-faq`;
 export const deleteGobalSetting   = `${BASE_URL}gobal-settings/delete-gobal-settings`;
 export const getTotal   = `${BASE_URL}gobal-settings/get-total`;
 
