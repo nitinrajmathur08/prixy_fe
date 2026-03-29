@@ -206,11 +206,11 @@ function UserDetail() {
                                                 
                                                 {users?.is_kyc_approved === 0 ? (
                                                     <div>
-                                                        <a onClick={() => handleKycApprovalToggle(users?._id, '1', '2')}>
+                                                        <a onClick={() => handleKycApprovalToggle(users?._id, '1', '2')} style={{ cursor: 'pointer' }}>
                                                             <i className="fa fa-times-circle disblecheck fa-lg"
                                                                 style={{ color: 'red',  fontSize: '25px',  marginTop: '10px'}}></i>
                                                         </a>
-                                                        <a onClick={() => handleKycApprovalToggle(users?._id, '1', '1')}>
+                                                        <a onClick={() => handleKycApprovalToggle(users?._id, '1', '1')} style={{ cursor: 'pointer' }}>
                                                             <i className="fa fa-check-circle enablecheck fa-lg" 
                                                             style={{ marginLeft: '10px', color: 'green',  fontSize: '25px',  marginTop: '10px'}}></i>
                                                         </a>    
