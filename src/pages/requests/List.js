@@ -2,6 +2,7 @@ import axios from 'axios';
 import React from 'react'
 import { getAllRequestAPI } from '../../config';
 import { useQuery } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
 
 function RequestList() {
     const token = localStorage.getItem('token'); // Parse as boolean
@@ -59,7 +60,7 @@ function RequestList() {
                                                     <td>{req.amount} HTG</td>
                                                     <td>{req.createdAt && new Date(req.createdAt).toLocaleDateString('en-CA').replace(/-/g, '-')}</td> 
                                                     <td>
-                                                        <a href={`/requests/detail/${req._id}`} ><i class="fa fa-eye " aria-hidden="true"></i></a>
+                                                        <Link to={`/requests/detail/${req._id}`} ><i class="fa fa-eye " aria-hidden="true"></i></Link>
                                                       
                                                     </td> 
                                                 </tr>

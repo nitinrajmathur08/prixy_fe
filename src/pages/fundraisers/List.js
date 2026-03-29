@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useMemo, useState } from 'react'
 import { getAllFundraisersAPI } from '../../config';
 import { useQuery } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
 
 function FundraiserList() {
     const token = localStorage.getItem('token'); // Parse as boolean
@@ -82,7 +83,7 @@ function FundraiserList() {
                                                     <td>{req.isVerified ? 'Approved' : 'Pending'}</td>
                                                     <td>
                                                         {/* <button class="ml-2 btn btn-sm btn-primary" disabled={req.isVerified} onClick={ () => handleApprove(req.id)}>{req.isVerified ? 'Approved' : 'Approve'}</button> */}
-                                                        <a href={`/fundraisers/detail/${req.id}`} ><i class="fa fa-eye " aria-hidden="true"></i></a>
+                                                        <Link to={`/fundraisers/detail/${req.id}`} ><i class="fa fa-eye " aria-hidden="true"></i></Link>
                                                     </td>
                                                 </tr>
                                             ))}

@@ -4,6 +4,7 @@ import React, { useCallback } from 'react'
 import { useParams } from 'react-router-dom';
 import { BASE_URL } from '../../config';
 import { Button } from '@mui/material';
+import { toast } from 'react-toastify';
 function DetailRequest() {
     const { id } = useParams();
     const queryClient = useQueryClient()
@@ -38,8 +39,16 @@ function DetailRequest() {
                     })
                 queryClient.refetchQueries(['getSingleRequests', id])
 
+                if (t === '2') {
+                    toast.success('Request approved successfully');
+                } else if (t === '3') {
+                    toast.success('Request rejected successfully');
+                } else {
+                    toast.info('Request status updated successfully');
+                }
             } catch (error) {
                 console.error(error);
+                toast.error('Failed to update request status. Please try again.');
             }
         },
         [id, queryClient, token],
@@ -48,6 +57,14 @@ function DetailRequest() {
 
     if (isLoading) {
         return <div>Loading...</div>;
+    }
+
+    if (isError) {
+        return <div>Error loading request details. Please try again.</div>;
+    }
+
+    if (!data || data.length === 0) {
+        return <div>No request data found.</div>;
     }
     return (
         <div className="content-wrapper">
@@ -126,13 +143,13 @@ function DetailRequest() {
                                             <label className="lableClass">Money Accept/Reject  </label>
                                             <br />
                                             <div>
-                                                <Button onClick={() => { handleAorR('3') }} >
+                                                <Button onClick={() => { handleAorR('3') }} style={{ cursor: 'pointer' }}>
                                                     <i className="fa fa-times-circle disblecheck fa-lg"
-                                                        style={{ color: 'red', fontSize: '25px', marginTop: '10px' }}></i>
+                                                        style={{ color: 'red', fontSize: '25px', marginTop: '10px', cursor: 'pointer' }}></i>
                                                 </Button>
-                                                <Button onClick={() => { handleAorR('2') }}>
+                                                <Button onClick={() => { handleAorR('2') }} style={{ cursor: 'pointer' }}>
                                                     <i className="fa fa-check-circle enablecheck fa-lg"
-                                                        style={{ color: 'green', fontSize: '25px', marginTop: '10px' }}></i>
+                                                        style={{ color: 'green', fontSize: '25px', marginTop: '10px', cursor: 'pointer' }}></i>
                                                 </Button>
                                             </div>
                                         </div> : <div className="col-lg-4">
