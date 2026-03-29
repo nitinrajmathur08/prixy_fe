@@ -3,6 +3,7 @@ import axios from 'axios';
 import { getAgentProfileAPI, updateKycAndVerifiedStatusForAgent, deleteAgentAPI } from '../../config';
 import { useParams, useNavigate } from 'react-router-dom';
 import ConfirmationModal from '../common/confirmationModal';
+import { toast } from 'react-toastify';
 
 
 function AgentDetail() {
@@ -41,6 +42,11 @@ function AgentDetail() {
                 ...users,
                 is_kyc_approved: response.data.data.is_kyc_approved
             });
+            if(response.data.data.is_kyc_approved === 1) {
+                toast.success('Agent KYC has been approved');
+            } else if(response.data.data.is_kyc_approved === 2) {
+                toast.error('Agent KYC has been rejected');
+            } 
         } catch (error) {
             console.error('Error toggling KYC approval:', error);
             // Handle error if needed
@@ -65,6 +71,12 @@ function AgentDetail() {
                 ...users,
                 is_block_user: response.data.data.is_block_user
             });
+            if(response.data.data.is_block_user === '1') {
+                toast.success('Agent has been blocked');
+            } else {
+                toast.info('Agent has been unblocked');
+            }
+
         } catch (error) {
             console.error('Error toggling admin verified approval:', error);
             // Handle error if needed

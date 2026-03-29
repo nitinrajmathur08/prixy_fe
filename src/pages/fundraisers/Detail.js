@@ -2,6 +2,7 @@ import React, { useEffect,useState } from 'react';
 import axios from 'axios';
 import { getAgentProfileAPI, MAIN_BASE_URL, updateKycAndVerifiedStatusForAgent } from '../../config';
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 
 function FundraiserDetail() {
@@ -31,9 +32,28 @@ function FundraiserDetail() {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            alert("Fundraiser approved successfully!");
+            toast.success("Fundraiser approved successfully!");
+            setUsers((prev) => ({ ...prev, isVerified: true }));
         } catch (error) {
             console.error("Error approving fundraiser:", error);
+            toast.error("Failed to approve fundraiser. Please try again.");
+        }
+    }
+
+    const handleReject = async () => {
+        try {
+            await axios.post(`${MAIN_BASE_URL}/api/fundraiser/reject`, 
+            { fundraiserId: id },
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            toast.success("Fundraiser rejected successfully!");
+            setUsers((prev) => ({ ...prev, isVerified: false }));
+        } catch (error) {
+            console.error("Error rejecting fundraiser:", error);
+            toast.error("Failed to reject fundraiser. Please try again.");
         }
     }
     
@@ -128,17 +148,13 @@ function FundraiserDetail() {
                                             
                                                 {!users?.isVerified ? (
                                                     <div>
-                                                        <a 
-                                                        // onClick={() => handleKycApprovalToggle(users._id, '1', '2')}
-                                                        >
+                                                        <a onClick={handleReject} style={{ cursor: 'pointer' }}>
                                                             <i className="fa fa-times-circle disblecheck fa-lg"
-                                                            style={{ color: 'red',  fontSize: '25px',  marginTop: '10px'}}></i>
+                                                            style={{ color: 'red',  fontSize: '25px',  marginTop: '10px', cursor: 'pointer'}}></i>
                                                         </a>
-                                                        <a 
-                                                        onClick={handleApprove}
-                                                            >
+                                                        <a onClick={handleApprove} style={{ cursor: 'pointer' }}>
                                                             <i className="fa fa-check-circle enablecheck fa-lg" 
-                                                            style={{ marginLeft: '10px', color: 'green',  fontSize: '25px',  marginTop: '10px'}}></i>
+                                                            style={{ marginLeft: '10px', color: 'green',  fontSize: '25px',  marginTop: '10px', cursor: 'pointer'}}></i>
                                                         </a>    
                                                     </div>
                                                 ) : (
