@@ -110,12 +110,12 @@ function DetailRequest() {
                                         <div className="col-lg-4">
                                             <label className="lableClass">Amount  </label>
                                             <br />
-                                            <span className='spanclassTxt'>{data[0]?.total_amount || 'N/A'} HTG</span>
+                                            <span className='spanclassTxt'>{data[0]?.total_amount || '0'} HTG</span>
                                         </div>
                                         <div className="col-lg-4">
                                             <label className="lableClass">Current Balance  </label>
                                             <br />
-                                            <span className='spanclassTxt'>{data[0]?.agent[0]?.current_balance || 'N/A'} HTG</span>
+                                            <span className='spanclassTxt'>{data[0]?.agent[0]?.current_balance || '0'} HTG</span>
                                         </div>
                                         <div className="col-lg-4">
                                             <label className="lableClass">Date of requested  </label>
