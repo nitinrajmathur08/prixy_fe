@@ -11,7 +11,7 @@ class Siderbar extends Component {
             <div>
                 <aside className="main-sidebar sidebar-dark-primary elevation-4">
                     <Link to="/" className="brand-link">
-                    <img src={process.env.PUBLIC_URL + "/Admin_Menu.png"} alt=""/>
+                    <img src={process.env.PUBLIC_URL + "/prixy_logo_new.png"} alt="Prixy Logo" style={{maxWidth: '50%', height: 'auto', padding: '2px'}}/>
                     </Link>
                     {/* <div className="main-navigation">MAIN NAVIGATION</div> */}
                   

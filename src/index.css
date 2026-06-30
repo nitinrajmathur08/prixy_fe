@@ -11,3 +11,41 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+:root {
+  --theme-primary: #221D50;
+  --theme-primary-hover: #181438;
+}
+
+/* Override AdminLTE Primary Theme Colors */
+.sidebar-dark-primary {
+  background-color: var(--theme-primary) !important;
+}
+
+.sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active,
+.sidebar-light-primary .nav-sidebar > .nav-item > .nav-link.active {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: #fff !important;
+}
+
+.bg-primary {
+  background-color: var(--theme-primary) !important;
+}
+
+.btn-primary {
+  background-color: var(--theme-primary) !important;
+  border-color: var(--theme-primary) !important;
+}
+
+.btn-primary:hover {
+  background-color: var(--theme-primary-hover) !important;
+  border-color: var(--theme-primary-hover) !important;
+}
+
+.text-primary {
+  color: var(--theme-primary) !important;
+}
+
+[class*="sidebar-dark-"] .sidebar a {
+  color: #c2c7d0;
+}
