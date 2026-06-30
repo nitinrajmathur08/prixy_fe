@@ -7,7 +7,7 @@ body{
     --black: #000000;
     --red: #FF0000;
     --orange: #FF8C00;
-    --lightgreen:#B4CB41;
+    --theme-primary:#221D50;
     font-family: 'Open Sans', sans-serif;
 }
 
@@ -18,8 +18,8 @@ button:focus{
 .btn-primary,
 .btn-primary:active,
 .btn-primary:not(:disabled):not(.disabled):active{
-    background-color: var(--lightgreen);
-    border-color: var(--lightgreen);
+    background-color: var(--theme-primary);
+    border-color: var(--theme-primary);
     font-size: 14px;
     font-weight: 600;
     padding: 6px 26px;
@@ -160,7 +160,7 @@ input:-webkit-autofill:active{
     margin-bottom: 0;
 }
 .nav-sidebar .nav-item .nav-link.active{
-    background-color: var(--lightgreen) !important;
+    background-color: var(--theme-primary) !important;
     border-radius: 0 !important;
 }   
 .nav-sidebar .nav-link p{
@@ -271,7 +271,7 @@ body.sidebar-collapse .main-navigation{
     width: 100%;
     margin-bottom: 20px;
     display: inline-block;
-    border-top: 3px solid var(--lightgreen);
+    border-top: 3px solid var(--theme-primary);
 }
 .box-main-top{
     padding: 10px 15px;
@@ -395,7 +395,7 @@ input:checked + .switchslider:before {
     border-right: none;
 }
 .admin-table td i{
-    color: var(--lightgreen)
+    color: var(--theme-primary)
 }
 .box-main-table{
     width: 100%;
@@ -429,8 +429,8 @@ input:checked + .switchslider:before {
     color: #777777;
 }
 .page-item.active .page-link{
-    background-color: var(--lightgreen);
-    border-color: var(--lightgreen);
+    background-color: var(--theme-primary);
+    border-color: var(--theme-primary);
 }
 .control-label{
     font-size: 14px;
@@ -617,11 +617,11 @@ select.form-control{
 }
 
 input:checked + .slider {
-  background-color: var(--lightgreen);
+  background-color: var(--theme-primary);
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px var(--lightgreen);
+  box-shadow: 0 0 1px var(--theme-primary);
 }
 
 input:checked + .slider:before {
