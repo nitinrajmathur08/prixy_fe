@@ -34,8 +34,8 @@ class AgentList extends Component {
     };
 
     getTotalPages = () => {
-        const { usersPerPage, users } = this.state;
-        return Math.ceil(users.length / usersPerPage);
+        const { itemsPerPage, users } = this.state;
+        return Math.ceil(users.length / itemsPerPage);
     };
     handleSearchChange = (event) => {
         this.setState({ searchQuery: event.target.value });
