@@ -13,6 +13,17 @@ class Siderbar extends Component {
                     <Link to="/" className="brand-link">
                     <img src={process.env.PUBLIC_URL + "/prixy_logo_new.png"} alt="Prixy Logo" style={{maxWidth: '50%', height: 'auto', padding: '2px'}}/>
                     </Link>
+                    <style>
+                    {`
+                        .main-sidebar {
+                            background-color: var(--theme-primary, #221D50) !important;
+                        }
+                        .nav-sidebar > .nav-item > .nav-link.active {
+                            background-color: #B1EB71 !important;
+                            color: #000 !important;
+                        }
+                    `}
+                    </style>
                     {/* <div className="main-navigation">MAIN NAVIGATION</div> */}
                   
                     <div className="sidebar">
