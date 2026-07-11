@@ -71,7 +71,7 @@ function AgentDetail() {
                 ...users,
                 is_block_user: response.data.data.is_block_user
             });
-            if(response.data.data.is_block_user === '1') {
+            if(response.data.data.is_block_user === '0') {
                 toast.success('Agent has been blocked');
             } else {
                 toast.info('Agent has been unblocked');
@@ -248,8 +248,8 @@ function AgentDetail() {
                                             <label className="switch" style={{ marginTop: '5px' }}>
                                             <input 
                                                 type="checkbox" 
-                                                checked={users.is_block_user === '1'}  
-                                                onChange={(e) => handleAdminApprovalToggle(users._id, '3', e.target.checked ? '1': '0' )}
+                                                checked={users.is_block_user === '0'}  
+                                                onChange={(e) => handleAdminApprovalToggle(users._id, '3', e.target.checked ? '0': '1' )}
                                             />
                                                 <span className="slider round"></span>
                                             </label>
