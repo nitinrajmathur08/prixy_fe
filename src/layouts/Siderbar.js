@@ -77,6 +77,12 @@ class Siderbar extends Component {
                                         <p>FAQ</p>
                                     </Link>    
                                 </li> 
+                                <li className="nav-item">
+                                    <Link to="/office-address" className={`nav-link ${currentPath.startsWith('/office-address') ? 'active' : ''}`}>
+                                        <i className="nav-icon fas fa-map-marker-alt"></i>
+                                        <p>Office Address</p>
+                                    </Link>    
+                                </li> 
                             </ul>
                         </nav>
                     </div>

@@ -27,6 +27,7 @@ import DetailRequest from './pages/requests/Detail';
 import FundraiserList from './pages/fundraisers/List';
 import FundraiserDetail from './pages/fundraisers/Detail';
 import Faq from './pages/faq/viewAndAddFaq';
+import OfficeAddress from './pages/officeAddress/viewAndAddOfficeAddress';
 
 const queryClient = new QueryClient()
 
@@ -62,6 +63,7 @@ function App() {
               <Route path="/gobal-setting/add/" element={<AddGlobalSettings />} />
               <Route path="/gobal-setting/edit/:id" element={<AddGlobalSettings />} />
               <Route path="/faq" element={<Faq />} />
+              <Route path="/office-address" element={<OfficeAddress />} />
       
 
             </Route>

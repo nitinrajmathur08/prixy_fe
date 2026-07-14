@@ -33,6 +33,9 @@ export const deleteFaq   = `${BASE_URL}gobal-settings/delete-faq`;
 export const deleteGobalSetting   = `${BASE_URL}gobal-settings/delete-gobal-settings`;
 export const getTotal   = `${BASE_URL}gobal-settings/get-total`;
 
+export const getOfficeAddress   = `${BASE_URL}gobal-settings/get-office-address`;
+export const addEditOfficeAddress   = `${BASE_URL}gobal-settings/add-edit-office-address`;
+export const deleteOfficeAddress   = `${BASE_URL}gobal-settings/delete-office-address`;
+
 // prixy.admin@gmail.com
 // 123456
-//
