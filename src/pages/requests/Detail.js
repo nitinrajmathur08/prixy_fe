@@ -1,15 +1,19 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { BASE_URL } from '../../config';
-import { Button } from '@mui/material';
+import { Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField } from '@mui/material';
 import { toast } from 'react-toastify';
 function DetailRequest() {
     const { id } = useParams();
     const queryClient = useQueryClient()
     console.log('---params---', id);
-    const token = localStorage.getItem('token'); // Parse as boolean
+    const token = localStorage.getItem('token'); 
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [verificationCode, setVerificationCode] = useState('');
+    const [confirmDialog, setConfirmDialog] = useState({ open: false, action: null });
 
     const { data, isLoading, isError } = useQuery({
         queryKey: ['getSingleRequests', id],
@@ -27,11 +31,13 @@ function DetailRequest() {
 
     const handleAorR = useCallback(
         async (t) => {
-            // /agent/update-requests/:reqId
             try {
-                await axios.post(`${BASE_URL}agent/update-requests/${id}`, {
-                    accept_decline_status: t
-                },
+                const payload = { accept_decline_status: t };
+                if (verificationCode) {
+                    payload.verification_code = verificationCode;
+                }
+
+                await axios.post(`${BASE_URL}agent/update-requests/${id}`, payload,
                     {
                         headers: {
                             'Authorization': `Bearer ${token}`
@@ -46,14 +52,26 @@ function DetailRequest() {
                 } else {
                     toast.info('Request status updated successfully');
                 }
+                
+                setIsModalOpen(false);
+                setVerificationCode('');
             } catch (error) {
                 console.error(error);
-                toast.error('Failed to update request status. Please try again.');
+                // Extract error message from API response if available
+                const errorMessage = error.response?.data?.msg || 'Failed to update request status. Please try again.';
+                toast.error(errorMessage);
             }
         },
-        [id, queryClient, token],
+        [id, queryClient, token, verificationCode],
     )
 
+    const handleApproveClick = () => {
+        if (data && data[0]?.money_request_type === '1') {
+            setIsModalOpen(true);
+        } else {
+            setConfirmDialog({ open: true, action: '2' });
+        }
+    };
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -131,23 +149,34 @@ function DetailRequest() {
                                             <br />
                                             <div className="row" style={{ marginTop: '10px' }}>
                                                 <div className="col-lg-12 file-item">
-                                                    <a href={`https://dev-prixy.s3.amazonaws.com/dev/${data[0]?.receipt}`} target="_blank" rel="noopener noreferrer">
-                                                        <img src={`https://dev-prixy.s3.amazonaws.com/dev/${data[0]?.receipt}`} alt="file-icon" className="file-icon" />
-                                                        <br />
-                                                        <span className='spanclassTxt'>{data[0]?.receipt}</span>
-                                                    </a>
+                                                    {data[0]?.receipt ? (
+                                                        <a href={`https://dev-prixy.s3.amazonaws.com/dev/${data[0]?.receipt}`} target="_blank" rel="noopener noreferrer">
+                                                            <img src={`https://dev-prixy.s3.amazonaws.com/dev/${data[0]?.receipt}`} alt="file-icon" className="file-icon" />
+                                                            <br />
+                                                            <span className='spanclassTxt'>{data[0]?.receipt}</span>
+                                                        </a>
+                                                    ) : (
+                                                        <span className='spanclassTxt'>N/A</span>
+                                                    )}
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div className="col-lg-4">
+                                            <label className="lableClass">Request Type</label>
+                                            <br />
+                                            <span className='spanclassTxt'>
+                                                {data[0]?.money_request_type === '1' ? 'Withdrawal' : 'Deposit'}
+                                            </span>
                                         </div>
                                         {data[0]?.accept_decline_status === '1' ? <div className="col-lg-4">
                                             <label className="lableClass">Money Accept/Reject  </label>
                                             <br />
                                             <div>
-                                                <Button onClick={() => { handleAorR('3') }} style={{ cursor: 'pointer' }}>
+                                                <Button onClick={() => setConfirmDialog({ open: true, action: '3' })} style={{ cursor: 'pointer' }}>
                                                     <i className="fa fa-times-circle disblecheck fa-lg"
                                                         style={{ color: 'red', fontSize: '25px', marginTop: '10px', cursor: 'pointer' }}></i>
                                                 </Button>
-                                                <Button onClick={() => { handleAorR('2') }} style={{ cursor: 'pointer' }}>
+                                                <Button onClick={handleApproveClick} style={{ cursor: 'pointer' }}>
                                                     <i className="fa fa-check-circle enablecheck fa-lg"
                                                         style={{ color: 'green', fontSize: '25px', marginTop: '10px', cursor: 'pointer' }}></i>
                                                 </Button>
@@ -165,6 +194,62 @@ function DetailRequest() {
                     </div>
                 </div>
             </section>
+
+            {/* Verification Code Modal */}
+            <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+                <DialogTitle>Enter Verification Code</DialogTitle>
+                <DialogContent>
+                    <div style={{ marginTop: '10px' }}>
+                        <TextField
+                            label="4-Digit Code"
+                            variant="outlined"
+                            fullWidth
+                            value={verificationCode}
+                            onChange={(e) => setVerificationCode(e.target.value)}
+                            placeholder="e.g. 1234"
+                            inputProps={{ maxLength: 4 }}
+                        />
+                    </div>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setIsModalOpen(false)} color="secondary">
+                        Cancel
+                    </Button>
+                    <Button 
+                        onClick={() => handleAorR('2')} 
+                        color="primary" 
+                        variant="contained"
+                        disabled={verificationCode.length !== 4}
+                    >
+                        Submit
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            {/* Confirmation Dialog */}
+            <Dialog open={confirmDialog.open} onClose={() => setConfirmDialog({ open: false, action: null })}>
+                <DialogTitle>Confirm Action</DialogTitle>
+                <DialogContent>
+                    <div style={{ marginTop: '10px' }}>
+                        Are you sure you want to {confirmDialog.action === '2' ? 'approve' : 'decline'} this request?
+                    </div>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setConfirmDialog({ open: false, action: null })} color="secondary">
+                        Cancel
+                    </Button>
+                    <Button 
+                        onClick={() => {
+                            handleAorR(confirmDialog.action);
+                            setConfirmDialog({ open: false, action: null });
+                        }} 
+                        color="primary" 
+                        variant="contained"
+                    >
+                        Confirm
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </div>
     )
 }
