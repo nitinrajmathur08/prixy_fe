@@ -110,6 +110,7 @@ class AgentList extends Component {
                                                 <th>Email</th>
                                                 <th>Kyc</th>
                                                 <th>Status</th>
+                                                <th>Profile Update</th>
                                                 <th>Created At</th>
                                                 <th>Action</th>
                                             </tr>
@@ -133,6 +134,11 @@ class AgentList extends Component {
                                                     {
                                                         user.is_block_user == "1" ? 'Active' :
                                                         'Block'
+                                                    }
+                                                    </td>
+                                                    <td>
+                                                    {
+                                                        user.update_profile_approval === 0 ? 'Pending' : 'Approved'
                                                     }
                                                     </td>
                                                     <td>{user.createdAt}</td>

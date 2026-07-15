@@ -241,6 +241,31 @@ function AgentDetail() {
                                                 }</span>
                                                 
                                             </div>
+                                            
+                                            <div className="col-lg-4">
+                                            <label className="lableClass"> Profile Update Approval </label>
+                                            <br/>
+                                            {users?.update_profile_approval === 0 ? (
+                                                <div>
+                                                    <a onClick={() => handleAdminApprovalToggle(users?._id, '4', '2')} style={{ cursor: 'pointer' }}>
+                                                        <i className="fa fa-times-circle disblecheck fa-lg"
+                                                            style={{ color: 'red',  fontSize: '25px',  marginTop: '10px'}}></i>
+                                                    </a>
+                                                    <a onClick={() => handleAdminApprovalToggle(users?._id, '4', '1')} style={{ cursor: 'pointer' }}>
+                                                        <i className="fa fa-check-circle enablecheck fa-lg" 
+                                                        style={{ marginLeft: '10px', color: 'green',  fontSize: '25px',  marginTop: '10px'}}></i>
+                                                    </a>    
+                                                </div>
+                                            ) : (
+                                                null
+                                            )}
+
+                                            <span className='spanclassTxt'>{
+                                                users?.update_profile_approval == 1 ? 'Approved/No Pending Update' :
+                                                users?.update_profile_approval == 2 ? 'Rejected' :
+                                                'Pending'
+                                            }</span>
+                                        </div>
                                         
                                         <div className="col-lg-4">
                                             <label className="lableClass"> Block / Unblock </label>
