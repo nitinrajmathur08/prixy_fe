@@ -16,6 +16,11 @@ const AddGlobalSettings = () => {
     const [userTransferToAnotherUserRate, setUserTransferToAnotherUserRate] = useState('');
     const [userWithdrawalFeeRate, setUserWithdrawalFeeRate]= useState('');
     const [fundraiserFee, setFundraiserFee]= useState('');
+    const [sabotay3MonthRate, setSabotay3MonthRate]= useState('');
+    const [sabotay6MonthRate, setSabotay6MonthRate]= useState('');
+    const [sabotay9MonthRate, setSabotay9MonthRate]= useState('');
+    const [sabotay1YearRate, setSabotay1YearRate]= useState('');
+    const [sabotayUrgentPenaltyRate, setSabotayUrgentPenaltyRate]= useState('');
     const [home, setHome]   = useState('');
     const [zip, setZip]     = useState('');
     const [city, setCity]   = useState('');
@@ -42,12 +47,18 @@ const AddGlobalSettings = () => {
 
             const data = response.data.data;
             setEmailAddress(data.admin_email || '');
+            setPhoneNumber(data.admin_phone_number || '');
             setAddress(data.admin_address || '');
             setAdminPreTransactionRate(data.admin_pre_transaction_rate || '');
             setUserWithdrawalFeeRate(data.user_withdrawal_fee_rate || '');
             setUserDesposistFeeRate(data.user_desposist_fee_rate || '');
             setFundraiserFee(data.fundraiser_fee || '');
             setUserTransferToAnotherUserRate(data.user_transfer_to_another_user_rate || '');
+            setSabotay3MonthRate(data.sabotay_3_month_rate || '5');
+            setSabotay6MonthRate(data.sabotay_6_month_rate || '7');
+            setSabotay9MonthRate(data.sabotay_9_month_rate || '8');
+            setSabotay1YearRate(data.sabotay_1_year_rate || '9');
+            setSabotayUrgentPenaltyRate(data.sabotay_urgent_penalty_rate || '3');
             // Address details
             setHome(data.addressDetails?.home || '');
             setStreet(data.addressDetails?.street || '');
@@ -78,6 +89,11 @@ const AddGlobalSettings = () => {
             user_desposist_fee_rate:         setUserDesposistFeeRate,
             user_transfer_to_another_user_rate: setUserTransferToAnotherUserRate,
             fundraiser_fee:                  setFundraiserFee,
+            sabotay_3_month_rate:            setSabotay3MonthRate,
+            sabotay_6_month_rate:            setSabotay6MonthRate,
+            sabotay_9_month_rate:            setSabotay9MonthRate,
+            sabotay_1_year_rate:             setSabotay1YearRate,
+            sabotay_urgent_penalty_rate:     setSabotayUrgentPenaltyRate,
             home:    setHome,
             city:    setCity,
             state:   setState,
@@ -106,6 +122,11 @@ const AddGlobalSettings = () => {
                 user_transfer_to_another_user_rate: userTransferToAnotherUserRate,
                 user_withdrawal_fee_rate: userWithdrawalFeeRate,
                 fundraiser_fee: fundraiserFee,
+                sabotay_3_month_rate: sabotay3MonthRate,
+                sabotay_6_month_rate: sabotay6MonthRate,
+                sabotay_9_month_rate: sabotay9MonthRate,
+                sabotay_1_year_rate: sabotay1YearRate,
+                sabotay_urgent_penalty_rate: sabotayUrgentPenaltyRate,
                 addressDetails: {
                     home,
                     street,
@@ -241,6 +262,48 @@ const AddGlobalSettings = () => {
                                                 <label className="lableClass">Fundraiser Fee Rate <span style={{color:'red'}}>*</span></label>
                                                 <input type="text" name="fundraiser_fee" placeholder="Enter rate"
                                                     className="form-control" value={fundraiserFee} onChange={handleChange} style={{ marginTop: '5px' }} />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* ── Sabotay Rates ── */}
+                                    <div className="row">
+                                        <div className="col-lg-4">
+                                            <div className="form-group">
+                                                <label className="lableClass">Sabotay 3 Month Rate (%) <span style={{color:'red'}}>*</span></label>
+                                                <input type="text" name="sabotay_3_month_rate" placeholder="Enter rate"
+                                                    className="form-control" value={sabotay3MonthRate} onChange={handleChange} style={{ marginTop: '5px' }} />
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-4">
+                                            <div className="form-group">
+                                                <label className="lableClass">Sabotay 6 Month Rate (%) <span style={{color:'red'}}>*</span></label>
+                                                <input type="text" name="sabotay_6_month_rate" placeholder="Enter rate"
+                                                    className="form-control" value={sabotay6MonthRate} onChange={handleChange} style={{ marginTop: '5px' }} />
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-4">
+                                            <div className="form-group">
+                                                <label className="lableClass">Sabotay 9 Month Rate (%) <span style={{color:'red'}}>*</span></label>
+                                                <input type="text" name="sabotay_9_month_rate" placeholder="Enter rate"
+                                                    className="form-control" value={sabotay9MonthRate} onChange={handleChange} style={{ marginTop: '5px' }} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="row">
+                                        <div className="col-lg-4">
+                                            <div className="form-group">
+                                                <label className="lableClass">Sabotay 1 Year Rate (%) <span style={{color:'red'}}>*</span></label>
+                                                <input type="text" name="sabotay_1_year_rate" placeholder="Enter rate"
+                                                    className="form-control" value={sabotay1YearRate} onChange={handleChange} style={{ marginTop: '5px' }} />
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-4">
+                                            <div className="form-group">
+                                                <label className="lableClass">Sabotay Urgent Withdrawal Penalty (%) <span style={{color:'red'}}>*</span></label>
+                                                <input type="text" name="sabotay_urgent_penalty_rate" placeholder="Enter rate"
+                                                    className="form-control" value={sabotayUrgentPenaltyRate} onChange={handleChange} style={{ marginTop: '5px' }} />
                                             </div>
                                         </div>
                                     </div>
