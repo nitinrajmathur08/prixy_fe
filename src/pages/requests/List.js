@@ -1,11 +1,12 @@
 import axios from 'axios';
-import React from 'react'
+import React, { useState } from 'react'
 import { getAllRequestAPI } from '../../config';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 
 function RequestList() {
     const token = localStorage.getItem('token'); // Parse as boolean
+    const [searchQuery, setSearchQuery] = useState('');
 
     const {data,isLoading, isError} = useQuery({
         queryKey: 'getAllRequests',
@@ -19,10 +20,24 @@ function RequestList() {
         },
         enabled: token ? true : false
     })
-    // console.log('---req data---',token,data);
+
+    const handleSearchChange = (event) => {
+        setSearchQuery(event.target.value);
+    };
+
     if (isLoading) {
         return <div>Loading...</div>;
     }
+
+    const filteredData = data ? data.filter(req => {
+        const name = req.agent_name 
+            ? req.agent_name 
+            : (req.agent && req.agent[0] && (req.agent[0].first_name || req.agent[0].last_name)
+                ? `${req.agent[0].first_name || ''} ${req.agent[0].last_name || ''}`.trim()
+                : '');
+        return name.toLowerCase().includes(searchQuery.toLowerCase());
+    }) : [];
+
     return (
         <div>
             <div className="content-wrapper">
@@ -40,7 +55,18 @@ function RequestList() {
                         <div class="box-main">
                             <div class="box-main-top">
                                 <div class="box-main-title">Manage Request List</div>
-                                
+                                <div class="box-main-top-right">
+                                    <div class="box-serch-field">
+                                        <input
+                                            type="text"
+                                            value={searchQuery}
+                                            onChange={handleSearchChange}
+                                            placeholder="Search"
+                                            className='form-control'
+                                        />
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </div>
+                                </div>
                             </div>
                             <div class="box-main-table">
                                 <div class="table-responsive">
@@ -48,20 +74,33 @@ function RequestList() {
                                         <thead>
                                             <tr>
                                                 <th>Name</th>
+                                                <th>Type</th>
                                                 <th>Amount</th>
+                                                <th>Status</th>
                                                 <th>Date</th>
-                                                <th>Acion</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {data && data.map((req, index) => (
+                                            {filteredData.map((req, index) => (
                                                 <tr key={index}>
-                                                    <td>{req?.agent[0]?.first_name} {req?.agent[0]?.last_name}</td>
+                                                    <td>
+                                                        {req.agent_name 
+                                                            ? req.agent_name 
+                                                            : (req.agent && req.agent[0] && (req.agent[0].first_name || req.agent[0].last_name)
+                                                                ? `${req.agent[0].first_name || ''} ${req.agent[0].last_name || ''}`.trim()
+                                                                : 'N/A'
+                                                            )
+                                                        }
+                                                    </td>
+                                                    <td>{req.request_type || (req.money_request_type === '1' ? 'Withdrawal' : 'Deposit')}</td>
                                                     <td>{req.amount} HTG</td>
+                                                    <td>
+                                                        {req.is_accepted || (req.accept_decline_status === '2' ? 'Accepted' : (req.accept_decline_status === '3' ? 'Declined' : 'Pending'))}
+                                                    </td>
                                                     <td>{req.createdAt && new Date(req.createdAt).toLocaleDateString('en-CA').replace(/-/g, '-')}</td> 
                                                     <td>
                                                         <Link to={`/requests/detail/${req._id}`} ><i class="fa fa-eye " aria-hidden="true"></i></Link>
-                                                      
                                                     </td> 
                                                 </tr>
                                             ))}
