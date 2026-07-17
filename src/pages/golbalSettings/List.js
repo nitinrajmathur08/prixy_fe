@@ -129,6 +129,26 @@ class GobalSettingList extends Component {
                                                     <td>{setting.fundraiser_fee}</td>
                                                 </tr>
                                                 <tr>
+                                                    <th>Sabotay 3 Month Rate (%)</th>
+                                                    <td>{setting.sabotay_3_month_rate}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Sabotay 6 Month Rate (%)</th>
+                                                    <td>{setting.sabotay_6_month_rate}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Sabotay 9 Month Rate (%)</th>
+                                                    <td>{setting.sabotay_9_month_rate}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Sabotay 1 Year Rate (%)</th>
+                                                    <td>{setting.sabotay_1_year_rate}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Sabotay Urgent Withdrawal Penalty (%)</th>
+                                                    <td>{setting.sabotay_urgent_penalty_rate}</td>
+                                                </tr>
+                                                <tr>
                                                     <th>Home</th>
                                                     <td>{setting.addressDetails?.home}</td>
                                                 </tr>
